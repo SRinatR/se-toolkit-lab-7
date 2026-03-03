@@ -30,7 +30,7 @@
   - [Head repository](#head-repository)
   - [Default branch](#default-branch)
   - [Base branch](#base-branch)
-  - [Compare branch](#compare-branch)
+  - [What is a compare branch](#what-is-a-compare-branch)
     - [`<compare-branch>`](#compare-branch)
 - [Create a pull request in your fork](#create-a-pull-request-in-your-fork)
   - [Open the PR editor using `GitHub`](#open-the-pr-editor-using-github)
@@ -240,9 +240,9 @@ New [pull requests](#pull-request) and code merges target the default branch by 
 
 The base branch is the branch in the [base repository](#base-repository) that you want to merge your changes into.
 
-### Compare branch
+### What is a compare branch
 
-The compare branch (also called the pull request branch or head branch) is the branch that contains the changes you want to merge into the [base branch](#base-branch).
+The compare branch (also called the "pull request branch" or "head branch") is the branch that contains the changes you want to merge into the [base branch](#base-branch).
 
 #### `<compare-branch>`
 
