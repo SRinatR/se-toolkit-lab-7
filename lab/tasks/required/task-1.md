@@ -67,7 +67,7 @@ sequenceDiagram
     - [1.3.3. Test incremental sync](#133-test-incremental-sync)
   - [1.4. Part B: Build the pipeline](#14-part-b-build-the-pipeline)
     - [1.4.1. Read the code stubs](#141-read-the-code-stubs)
-    - [1.4.2. Implement the pipeline](#142-implement-the-pipeline)
+    - [1.4.2. Implement the pipeline (AI)](#142-implement-the-pipeline-ai)
     - [1.4.3. Run and test locally](#143-run-and-test-locally)
     - [1.4.4. Verify the data locally](#144-verify-the-data-locally)
     - [1.4.5. Test idempotency locally](#145-test-idempotency-locally)
@@ -209,7 +209,7 @@ The API has HTTP Basic Auth, we'll use `curl` to send requests.
 
 <!-- no toc -->
 - [1.4.1. Read the code stubs](#141-read-the-code-stubs)
-- [1.4.2. Implement the pipeline](#142-implement-the-pipeline)
+- [1.4.2. Implement the pipeline (AI)](#142-implement-the-pipeline-ai)
 - [1.4.3. Run and test locally](#143-run-and-test-locally)
 - [1.4.4. Verify the data locally](#144-verify-the-data-locally)
 - [1.4.5. Test idempotency locally](#145-test-idempotency-locally)
@@ -245,7 +245,7 @@ The code stubs in `backend/app/etl.py` contain detailed TODOs.
    - How to match API data to database models.
    - How to ensure idempotent upserts (skip records that already exist).
 
-#### 1.4.2. Implement the pipeline
+#### 1.4.2. Implement the pipeline (AI)
 
 1. [Start the `Qwen Code` coding agent](../../../wiki/qwen.md#open-a-chat-with-qwen-code) in the terminal inside the project directory.
 2. Give it a prompt that asks for planning, implementation, and explanation:

@@ -25,7 +25,7 @@ An AI coding agent can help with the `Chart.js` integration.
   - [1.1. Follow the `Git workflow`](#11-follow-the-git-workflow)
   - [1.2. Create a `Lab Task` issue](#12-create-a-lab-task-issue)
   - [1.3. Install the chart library](#13-install-the-chart-library)
-  - [1.4. Create the dashboard component](#14-create-the-dashboard-component)
+  - [1.4. Create the dashboard component (AI)](#14-create-the-dashboard-component-ai)
   - [1.5. Add navigation](#15-add-navigation)
   - [1.6. Run the type checker](#16-run-the-type-checker)
   - [1.7. Verify locally](#17-verify-locally)
@@ -71,7 +71,7 @@ Title: `[Task] Dashboard Frontend`
    cd ..
    ```
 
-### 1.4. Create the dashboard component
+### 1.4. Create the dashboard component (AI)
 
 > [!NOTE]
 > The dashboard should display at least two of the following visualizations:
