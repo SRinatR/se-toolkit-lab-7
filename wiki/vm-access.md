@@ -3,16 +3,17 @@
 <h2>Table of contents</h2>
 
 - [About the VM access](#about-the-vm-access)
+- [Set up the `SSH` access to the VM](#set-up-the-ssh-access-to-the-vm)
 - [Set up `SSH` (LOCAL)](#set-up-ssh-local)
   - [Create a new `SSH` key (LOCAL)](#create-a-new-ssh-key-local)
   - [Find the `SSH` key files (LOCAL)](#find-the-ssh-key-files-local)
   - [Get the `SSH` public key (LOCAL)](#get-the-ssh-public-key-local)
   - [Add the `SSH` key to the `ssh-agent` (LOCAL)](#add-the-ssh-key-to-the-ssh-agent-local)
 - [Check that the VM is accessible (LOCAL)](#check-that-the-vm-is-accessible-local)
-- [Set up the `SSH` connection to the VM as the user `root`](#set-up-the-ssh-connection-to-the-vm-as-the-user-root)
+- [Set up the `SSH` access to the VM as the user `root`](#set-up-the-ssh-access-to-the-vm-as-the-user-root)
   - [Update the `SSH` config to connect to the VM as the user `root` (LOCAL)](#update-the-ssh-config-to-connect-to-the-vm-as-the-user-root-local)
   - [Connect to the VM as the user `root` (LOCAL)](#connect-to-the-vm-as-the-user-root-local)
-- [Set up the `SSH` connection to the VM as the user `<user>`](#set-up-the-ssh-connection-to-the-vm-as-the-user-user)
+- [Set up the `SSH` access to the VM as the user `<user>`](#set-up-the-ssh-access-to-the-vm-as-the-user-user)
   - [Create the non-root user `<user>` (REMOTE)](#create-the-non-root-user-user-remote)
   - [Set up the `SSH` key authentication for the user `<user>` (REMOTE)](#set-up-the-ssh-key-authentication-for-the-user-user-remote)
   - [Update the `SSH` config to connect to the VM as the user `<user>` (LOCAL)](#update-the-ssh-config-to-connect-to-the-vm-as-the-user-user-local)
@@ -32,6 +33,7 @@
   - [Login with password](#login-with-password)
 
 ## About the VM access
+## Set up the `SSH` access to the VM
 
 > [!NOTE]
 > Replace [`<user>`](./operating-system.md#user-placeholder) with the actual [username](./operating-system.md#username).
@@ -42,8 +44,8 @@ Complete these steps:
 1. [Set up `SSH` (LOCAL)](#set-up-ssh-local).
 2. [Create a VM](./vm.md#create-a-vm).
 3. [Check that the VM is accessible (LOCAL)](#check-that-the-vm-is-accessible-local).
-4. [Set up the `SSH` connection to the VM as the user `root`](#set-up-the-ssh-connection-to-the-vm-as-the-user-root).
-5. [Set up the `SSH` connection to the VM as the user `<user>`](#set-up-the-ssh-connection-to-the-vm-as-the-user-user).
+4. [Set up the `SSH` access to the VM as the user `root`](#set-up-the-ssh-access-to-the-vm-as-the-user-root).
+5. [Set up the `SSH` access to the VM as the user `<user>`](#set-up-the-ssh-access-to-the-vm-as-the-user-user).
 6. [Restrict the `SSH` connection](#restrict-the-ssh-connection).
 
 ## Set up `SSH` (LOCAL)
@@ -184,7 +186,7 @@ Complete these steps:
    >
    > [`Connection timed out`](#connection-timed-out).
 
-## Set up the `SSH` connection to the VM as the user `root`
+## Set up the `SSH` access to the VM as the user `root`
 
 Complete these steps:
 
@@ -254,7 +256,7 @@ Complete these steps:
    >
    > [`<your-vm-name>`](./vm.md#your-vm-name-placeholder) is the same as you specified when [creating the VM](./vm.md#create-a-vm).
 
-## Set up the `SSH` connection to the VM as the user `<user>`
+## Set up the `SSH` access to the VM as the user `<user>`
 
 Complete these steps:
 
