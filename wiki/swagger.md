@@ -28,12 +28,12 @@ Actions:
 
 **On a deployed VM:**
 
-1. Open in a browser: `http://<your-vm-ip-address>:<lms-api-port>/docs`.
+1. Open in a browser: `http://<your-vm-ip-address>:<lms-api-host-port>/docs`.
 
    Replace the placeholders:
 
    - [`<your-vm-ip-address>`](./vm.md#your-vm-ip-address-placeholder)
-   - [`<lms-api-port>`](./lms-api.md#lms-api-port-placeholder)
+   - [`<lms-api-host-port>`](./lms-api.md#lms-api-port-placeholder)
 
 ## Authorize in `Swagger UI`
 

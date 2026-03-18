@@ -4,7 +4,7 @@
 
 ## LMS API port
 
-### `<lms-api-port>` placeholder
+### `<lms-api-host-port>` placeholder
 
 ## `Caddy`
 

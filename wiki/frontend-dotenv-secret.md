@@ -33,6 +33,6 @@ Default: `http://127.0.0.1:42002`
 
 The default points to the [`Caddy`](./caddy.md#what-is-caddy) reverse proxy running via [`Docker Compose`](./docker-compose.md#what-is-docker-compose) on your local machine.
 
-Change this to `http://<your-vm-ip-address>:<lms-api-port>` if the API runs on the VM.
+Change this to `http://<your-vm-ip-address>:<lms-api-host-port>` if the API runs on the VM.
 
 See [`<your-vm-ip-address>`](./vm.md#your-vm-ip-address-placeholder) and [`CADDY_HOST_PORT`](./dotenv-docker-secret.md#caddy_host_port) in [`.env.docker.secret`](./dotenv-docker-secret.md#what-is-envdockersecret).

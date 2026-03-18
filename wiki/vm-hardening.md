@@ -49,10 +49,10 @@ Complete these steps:
    [run in the `VS Code Terminal`](./vs-code.md#run-a-command-in-the-vs-code-terminal):
 
    ```terminal
-   sudo ufw allow <lms-api-port>
+   sudo ufw allow <lms-api-host-port>
    ```
 
-   Replace the placeholder [`<lms-api-port>`](./lms-api.md#lms-api-port-placeholder).
+   Replace the placeholder [`<lms-api-host-port>`](./lms-api.md#lms-api-port-placeholder).
 
 3. To enable the [firewall](./computer-networks.md#firewall),
 
