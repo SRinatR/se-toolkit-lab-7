@@ -32,6 +32,24 @@ services:
       postgres:
         condition: service_healthy
 
+  bot:
+    build:
+      context: .
+      dockerfile: bot/Dockerfile
+      args:
+        REGISTRY_PREFIX: ${REGISTRY_PREFIX}
+    restart: unless-stopped
+    depends_on:
+      - backend
+    environment:
+      BOT_TOKEN: ${BOT_TOKEN}
+      LMS_API_BASE_URL: http://backend:8000
+      LMS_API_KEY: ${LMS_API_KEY}
+      LLM_API_KEY: ${LLM_API_KEY}
+      LLM_API_BASE_URL: http://host.docker.internal:42005/v1
+      LLM_API_MODEL: ${LLM_API_MODEL}
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
   postgres:
     image: ${REGISTRY_PREFIX:-harbor.pg.innopolis.university/docker-hub-cache/}postgres:18.3-alpine
     restart: unless-stopped
