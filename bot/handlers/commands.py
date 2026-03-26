@@ -3,6 +3,7 @@ from __future__ import annotations
 from typing import Any
 
 from config import get_settings
+from services.llm_router import route_natural_language
 from services.lms_api import BackendError, LmsApiClient
 
 
@@ -18,7 +19,7 @@ def _as_list(data: Any) -> list[Any]:
     if isinstance(data, list):
         return data
     if isinstance(data, dict):
-        for key in ("data", "items", "results", "tasks", "labs"):
+        for key in ("data", "items", "results", "tasks", "labs", "learners"):
             value = data.get(key)
             if isinstance(value, list):
                 return value
@@ -36,11 +37,7 @@ def _format_percent(value: Any) -> str:
 
 
 def handle_start() -> str:
-    return (
-        "Welcome to the LMS bot.\n"
-        "Use /help to see available commands."
-    )
-
+    return "Welcome to the LMS bot.\nUse /help to see available commands."
 
 def handle_help() -> str:
     return (
@@ -49,9 +46,12 @@ def handle_help() -> str:
         "/help - show this help\n"
         "/health - check backend status\n"
         "/labs - list available labs\n"
-        "/scores <lab> - show per-task pass rates"
+        "/scores <lab> - show per-task pass rates\n"
+        "\nYou can also ask plain questions like:\n"
+        "- what labs are available?\n"
+        "- who are the top 5 students?\n"
+        "- which lab has the lowest pass rate?"
     )
-
 
 def handle_health() -> str:
     try:
@@ -59,7 +59,6 @@ def handle_health() -> str:
         return f"Backend is healthy. {len(items)} items available."
     except BackendError as exc:
         return f"Backend error: {exc}. Check that the services are running."
-
 
 def handle_labs() -> str:
     try:
@@ -69,37 +68,28 @@ def handle_labs() -> str:
             return "No labs found."
         lines = ["Available labs:"]
         for lab in labs:
-            title = lab.get("title", "Untitled lab")
-            lines.append(f"- {title}")
+            lines.append(f"- {lab.get('title', 'Untitled lab')}")
         return "\n".join(lines)
     except BackendError as exc:
         return f"Backend error: {exc}. Check that the services are running."
 
-
 def handle_scores(argument: str | None = None) -> str:
     if not argument:
         return "Usage: /scores <lab>"
-
     try:
-        raw = _client().get_pass_rates(argument)
-        rows = _as_list(raw)
-
+        rows = _as_list(_client().get_pass_rates(argument))
         if not rows:
             return f"No pass-rate data found for {argument}."
-
         lines = [f"Pass rates for {argument}:"]
         found_any = False
-
         for row in rows:
             if not isinstance(row, dict):
                 continue
-
             task_name = (
                 row.get("task")
                 or row.get("task_title")
                 or row.get("title")
                 or row.get("name")
-                or row.get("label")
                 or "Unknown task"
             )
             percent = (
@@ -115,28 +105,22 @@ def handle_scores(argument: str | None = None) -> str:
                 or row.get("count")
                 or row.get("n")
             )
-
             line = f"- {task_name}: {_format_percent(percent)}"
             if attempts is not None:
                 line += f" ({attempts} attempts)"
             lines.append(line)
             found_any = True
-
         if not found_any:
             return f"No pass-rate data found for {argument}."
-
         return "\n".join(lines)
     except BackendError as exc:
         return f"Backend error: {exc}. Check that the services are running."
 
-
 def handle_unknown(command: str) -> str:
     return f"Unknown command: {command}. Try /help."
 
-
 def dispatch_command(text: str) -> str:
     raw = (text or "").strip()
-
     if not raw:
         return "Empty input. Try /help."
 
@@ -156,3 +140,9 @@ def dispatch_command(text: str) -> str:
         return handle_scores(argument)
 
     return handle_unknown(command)
+
+def dispatch_input(text: str) -> str:
+    raw = (text or "").strip()
+    if raw.startswith("/"):
+        return dispatch_command(raw)
+    return route_natural_language(raw)
