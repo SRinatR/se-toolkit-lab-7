@@ -8,13 +8,13 @@ ENV UV_PYTHON_DOWNLOADS=0
 
 WORKDIR /app
 
-COPY bot/pyproject.toml bot/uv.lock /app/
+COPY bot/pyproject.toml /app/pyproject.toml
 RUN --mount=type=cache,target=/root/.cache/uv \
-    uv sync --frozen
+    uv sync
 
 COPY bot /app
 RUN --mount=type=cache,target=/root/.cache/uv \
-    uv sync --frozen
+    uv sync
 
 ARG REGISTRY_PREFIX=harbor.pg.innopolis.university/docker-hub-cache/
 FROM ${REGISTRY_PREFIX}python:3.14.2-slim-bookworm
