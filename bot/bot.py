@@ -61,7 +61,7 @@ async def run_telegram_mode() -> int:
 
 def main() -> int:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--test", help='Run offline test mode, e.g. --test "/start"')
+    parser.add_argument("--test", help='Run offline test mode, e.g. --test "/health"')
     args = parser.parse_args()
 
     if args.test is not None:

@@ -1,6 +1,43 @@
+from __future__ import annotations
+
+from typing import Any
+
+from config import get_settings
+from services.lms_api import BackendError, LmsApiClient
+
+
+def _client() -> LmsApiClient:
+    settings = get_settings()
+    return LmsApiClient(
+        base_url=settings.lms_api_base_url,
+        api_key=settings.lms_api_key,
+    )
+
+
+def _as_list(data: Any) -> list[Any]:
+    if isinstance(data, list):
+        return data
+    if isinstance(data, dict):
+        for key in ("data", "items", "results", "tasks", "labs"):
+            value = data.get(key)
+            if isinstance(value, list):
+                return value
+        return [data]
+    return []
+
+
+def _format_percent(value: Any) -> str:
+    if isinstance(value, (int, float)):
+        number = float(value)
+        if 0 <= number <= 1:
+            number *= 100
+        return f"{number:.1f}%"
+    return "N/A"
+
+
 def handle_start() -> str:
     return (
-        "Welcome to the LMS bot scaffold.\n"
+        "Welcome to the LMS bot.\n"
         "Use /help to see available commands."
     )
 
@@ -10,24 +47,87 @@ def handle_help() -> str:
         "Available commands:\n"
         "/start - show welcome message\n"
         "/help - show this help\n"
-        "/health - backend status placeholder\n"
-        "/labs - lab list placeholder\n"
-        "/scores <lab> - scores placeholder"
+        "/health - check backend status\n"
+        "/labs - list available labs\n"
+        "/scores <lab> - show per-task pass rates"
     )
 
 
 def handle_health() -> str:
-    return "Backend status: not implemented yet."
+    try:
+        items = _as_list(_client().get_items())
+        return f"Backend is healthy. {len(items)} items available."
+    except BackendError as exc:
+        return f"Backend error: {exc}. Check that the services are running."
 
 
 def handle_labs() -> str:
-    return "Labs list: not implemented yet."
+    try:
+        items = _as_list(_client().get_items())
+        labs = [item for item in items if isinstance(item, dict) and item.get("type") == "lab"]
+        if not labs:
+            return "No labs found."
+        lines = ["Available labs:"]
+        for lab in labs:
+            title = lab.get("title", "Untitled lab")
+            lines.append(f"- {title}")
+        return "\n".join(lines)
+    except BackendError as exc:
+        return f"Backend error: {exc}. Check that the services are running."
 
 
 def handle_scores(argument: str | None = None) -> str:
     if not argument:
         return "Usage: /scores <lab>"
-    return f"Scores for {argument}: not implemented yet."
+
+    try:
+        raw = _client().get_pass_rates(argument)
+        rows = _as_list(raw)
+
+        if not rows:
+            return f"No pass-rate data found for {argument}."
+
+        lines = [f"Pass rates for {argument}:"]
+        found_any = False
+
+        for row in rows:
+            if not isinstance(row, dict):
+                continue
+
+            task_name = (
+                row.get("task")
+                or row.get("task_title")
+                or row.get("title")
+                or row.get("name")
+                or row.get("label")
+                or "Unknown task"
+            )
+            percent = (
+                row.get("pass_rate")
+                or row.get("avg_score_pct")
+                or row.get("percentage")
+                or row.get("avg_percent")
+                or row.get("score")
+            )
+            attempts = (
+                row.get("attempts")
+                or row.get("submission_count")
+                or row.get("count")
+                or row.get("n")
+            )
+
+            line = f"- {task_name}: {_format_percent(percent)}"
+            if attempts is not None:
+                line += f" ({attempts} attempts)"
+            lines.append(line)
+            found_any = True
+
+        if not found_any:
+            return f"No pass-rate data found for {argument}."
+
+        return "\n".join(lines)
+    except BackendError as exc:
+        return f"Backend error: {exc}. Check that the services are running."
 
 
 def handle_unknown(command: str) -> str:
