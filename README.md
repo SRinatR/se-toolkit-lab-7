@@ -95,3 +95,5 @@ By the end of this lab, you should be able to say:
 ### Optional
 
 1. [Flutter Web Chatbot](./lab/tasks/optional/task-1.md)
+
+- Verified bot container runs alongside backend.
